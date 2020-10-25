@@ -1,105 +1,111 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <math.h>
 #include <string.h>
+#include <dirent.h>
 
-#define n_threads 3
-/*
-int Create_Thread(char comando[512]){
-	pthread_t thread;
-	int t;
-	
-	t = pthread_create (&thread, NULL, comando, NULL);
-	if(t){
-		printf("Erro: Problema na criação da thread %d\n",t);
-		return 1;
-	}
-	
-	return 0;
-}
-*/
+//Percorre a linha de comando digitada pelo usuario e retorna a quantidade de virgulas.
 int Contador_Virgulas(char comando[512]){
-	int i, countc = 0;
+	int i, countv = 0;
 	
 	for(i=0; i<strlen(comando); i++){
 		if(comando[i] == ','){
-			countc++;
+			countv++;
 		}
 	}
-	return countc;
+	return countv;
 }
 
-int Separador_Comandos(char comando[512]){
-	int i, j, countv, *p_virgulas, count=0, p1, num;
-	char **comandos;
+//Funçao que recebe o comando com virgulas e retorna os comandos separados
+char **Separador_Comandos(char comando[512]){
+	char *comandoToken, **comandos;
+	int num,j=0,i=0, countc, *p_virgulas;
 	
-	countv = Contador_Virgulas(comando);
+	strcat(comando,",");
 	
-	p_virgulas = (int *) malloc((countv+1) * sizeof(int));
+	countc = Contador_Virgulas(comando);
 	
-    j=0;
-	for(i=0; i<strlen(comando); i++){
+	p_virgulas = (int *) malloc((countc+1) * sizeof(int));
+	if(p_virgulas==NULL){
+		printf("Erro de alocação!");
+		exit(1);
+	}
+   
+	for(i=0; i<strlen(comando); i++){//Estrutura de repetição que armazena o posição das virgulas no vetor comando
 		if(comando[i] == ','){
 			p_virgulas[j] = i;
-			
 			j++;
 		}
 	}
-	p_virgulas[countv] = strlen(comando);
+	p_virgulas[countc] = strlen(comando);
 	
-	comandos = (char **) malloc((countv+1) * sizeof(char*));
-	num = p_virgulas[0];
-	for (i=0; i < (countv+1); i++){
-		printf("%d\n",num);
-   		comandos[i] = (char *) malloc (num+1 * sizeof(char));
-   		num = p_virgulas[i+1] - p_virgulas[i] - 1;
-    }
-	
-	p1=0;
-	for(i=0; i<(countv+1); i++){
-		count=0;
-		
-		for(j=p1; j<p_virgulas[i]; j++){
-			
-			comandos[i][count] = comando[j];
-			count++;
-			
-		}
-		int k = strlen(comandos[i]);
-		printf("%c",comandos[i][10]);
-		printf("%d\n",k);
-		p1 = p_virgulas[i]+1;
-		
+	comandos = (char **) malloc((countc+1) * sizeof(char*));
+	if(comandos==NULL){
+		printf("Erro de alocação!");
+		exit(1);
 	}
 	
-	return 0;
+	num = p_virgulas[0];
+	for (i=0; i < (countc+1); i++){
+   		comandos[i] = (char *) malloc (num * sizeof(char));
+   		if(comandos[i]==NULL){
+			printf("Erro de alocação!");
+			exit(1);
+		}
+   		num = p_virgulas[i+1] - p_virgulas[i] - 1;
+    }
+    
+	comandoToken = (char *) malloc((countc+1) * sizeof(char*)); 
+	if(comandoToken==NULL){
+		printf("Erro de alocação!");
+		exit(1);
+	}
+	
+	i=0;
+	comandoToken = strtok(comando, ",");//separaçao da string comando
+	strcpy(comandos[i],comandoToken);
+	while(comandoToken != NULL){
+		if(i=countc){
+			strcpy(comandos[i],comandoToken);
+			puts(comandos[i]);
+			comandoToken = strtok(NULL, ",");
+			i++;
+		}
+	}
+	
+	free(comandoToken);
+	
+	return comandos;
+}
+
+//Funçao q libera os vetores alocados
+void Libera_Alocacao(char comando[512], char** comandos){
+	int i, countc;
+  
+	countc = Contador_Virgulas(comando);
+  
+	for(i = 0; i < countc; i++){
+		free(comandos[i]);	
+	}
+  	free(comandos);
 }
 
 int main(){
-	int i, t=0, countc=0;
-	char comando[512];
+	int i, j, countc;
+	char comando[512],**comandos;
 	
-	printf("digite o comando:\n");
+	while(i==0){
+		printf("Digite o comando:\n");
 		fflush(stdin);
 		gets(comando);
-		countc = Separador_Comandos(comando);
-	while(t=0){
-		
-		
-		/*
-		switch(comando){
-			case quit;
-				exit(0);
-			break;
-			
-			case 
+		countc = Contador_Virgulas(comando)+1;
+		comandos = Separador_Comandos(comando);
+		for(j=0;j<countc+1;j++){
+			if(strcmp(comandos[j],"quit")==0){
+				i=1;
+			}
 		}
-		*/
 	}
-	
-	
-	
+
+	Libera_Alocacao(comando, comandos);
 	return 0;
 }
