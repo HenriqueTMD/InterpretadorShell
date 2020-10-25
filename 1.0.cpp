@@ -16,7 +16,7 @@ int Contador_Virgulas(char comando[512]){
 }
 
 //Funçao que recebe o comando com virgulas e retorna os comandos separados
-char **Separador_Comandos(char comando[512]){
+char** Separador_Comandos(char comando[512]){
 	char *comandoToken, **comandos;
 	int num,j=0,i=0, countc, *p_virgulas;
 	
@@ -64,9 +64,8 @@ char **Separador_Comandos(char comando[512]){
 	comandoToken = strtok(comando, ",");//separaçao da string comando
 	strcpy(comandos[i],comandoToken);
 	while(comandoToken != NULL){
-		if(i=countc){
+		if(i!=countc){
 			strcpy(comandos[i],comandoToken);
-			puts(comandos[i]);
 			comandoToken = strtok(NULL, ",");
 			i++;
 		}
@@ -74,7 +73,7 @@ char **Separador_Comandos(char comando[512]){
 	
 	free(comandoToken);
 	
-	return comandos;
+	return(comandos);
 }
 
 //Funçao q libera os vetores alocados
@@ -99,7 +98,8 @@ int main(){
 		gets(comando);
 		countc = Contador_Virgulas(comando)+1;
 		comandos = Separador_Comandos(comando);
-		for(j=0;j<countc+1;j++){
+		for(j=0;j<countc;j++){
+			puts(comandos[j]);
 			if(strcmp(comandos[j],"quit")==0){
 				i=1;
 			}
