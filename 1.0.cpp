@@ -17,7 +17,7 @@ int Contador_Virgulas(char comando[512]){
 	return countv;
 }
 
-//Percorre a linha de comando digitada pelo usuario e retorna a quantidade de espaÃ§os.
+//Percorre a linha de comando digitada pelo usuario e retorna a quantidade de espaços.
 int Contador_Espacos(char comando[512]){
 	int i, counte = 0;
 	
@@ -29,7 +29,7 @@ int Contador_Espacos(char comando[512]){
 	return counte;
 }
 
-//FunÃ§ao que recebe o comando com virgulas e retorna os comandos separados
+//Funçao que recebe o comando com virgulas e retorna os comandos separados
 char** Separador_Comandos(char comando[512]){
 	char *comandoToken, **comandos;
 	int num,j=0,i=0, countc, *p_virgulas;
@@ -40,11 +40,11 @@ char** Separador_Comandos(char comando[512]){
 	
 	p_virgulas = (int *) malloc((countc+1) * sizeof(int));
 	if(p_virgulas==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
    
-	for(i=0; i<strlen(comando); i++){//Estrutura de repetiÃ§Ã£o que armazena o posiÃ§Ã£o das virgulas no vetor comando
+	for(i=0; i<strlen(comando); i++){//Estrutura de repetição que armazena o posição das virgulas no vetor comando
 		if(comando[i] == ','){
 			p_virgulas[j] = i;
 			j++;
@@ -54,7 +54,7 @@ char** Separador_Comandos(char comando[512]){
 	
 	comandos = (char **) malloc((countc+1) * sizeof(char*));
 	if(comandos==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
 	
@@ -62,7 +62,7 @@ char** Separador_Comandos(char comando[512]){
 	for (i=0; i < (countc+1); i++){
    		comandos[i] = (char *) malloc ((num+1) * sizeof(char));
    		if(comandos[i]==NULL){
-			printf("Erro de alocaÃ§Ã£o!");
+			printf("Erro de alocação!");
 			exit(1);
 		}
    		num = p_virgulas[i+1] - p_virgulas[i] - 1;
@@ -70,12 +70,12 @@ char** Separador_Comandos(char comando[512]){
     
 	comandoToken = (char *) malloc((countc+1) * sizeof(char*)); 
 	if(comandoToken==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
 	
 	i=0;
-	comandoToken = strtok(comando, ",");//separaÃ§ao da string comando
+	comandoToken = strtok(comando, ",");//separaçao da string comando
 	strcpy(comandos[i],comandoToken);
 	while(comandoToken != NULL){
 		if(i!=countc){
@@ -84,9 +84,7 @@ char** Separador_Comandos(char comando[512]){
 			i++;
 		}
 	}
-	
-	
-	
+
 	free(comandoToken);
 	
 	return(comandos);
@@ -102,7 +100,7 @@ char** Tratamento_Comando(char* comando){
 	
 	p_espacos = (int *) malloc(counte * sizeof(int));
 	if(p_espacos==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
    
@@ -113,9 +111,9 @@ char** Tratamento_Comando(char* comando){
 		}
 	}
 	
-	argv = (char **) malloc((counte) * sizeof(char*));
+	argv = (char **) malloc((counte+1) * sizeof(char*));
 	if(argv==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
 	
@@ -123,7 +121,7 @@ char** Tratamento_Comando(char* comando){
 	for (i=0; i < counte; i++){
    		argv[i] = (char *) malloc (num * sizeof(char));
    		if(argv[i]==NULL){
-			printf("Erro de alocaÃ§Ã£o!");
+			printf("Erro de alocação!");
 			exit(1);
 		}
    		num = p_espacos[i+1] - p_espacos[i] - 1;
@@ -131,25 +129,28 @@ char** Tratamento_Comando(char* comando){
     
     comandoToken = (char *) malloc((counte+1) * sizeof(char*)); 
 	if(comandoToken==NULL){
-		printf("Erro de alocaÃ§Ã£o!");
+		printf("Erro de alocação!");
 		exit(1);
 	}
 	
 	i=0;
-	comandoToken = strtok(comando, " ");//separaÃ§ao da string comando
+	comandoToken = strtok(comando, " ");//separaçao da string comando
 	strcpy(argv[i],comandoToken);
 	while(comandoToken != NULL){
 		if(i!=counte){
 			strcpy(argv[i],comandoToken);
+			puts(argv[i]);
 			comandoToken = strtok(NULL, " ");
 			i++;
 		}
 	}
 	
+	argv[counte] = NULL;
+	
 	return(argv);	
 }
 
-//FunÃ§ao q libera os vetores alocados
+//Funçao q libera os vetores alocados
 void Libera_Alocacao(char comando[512], char** comandos){
 	int i, countc;
   
@@ -184,19 +185,18 @@ int main(){
 			}
 			argv = Tratamento_Comando(comandos[j]);
 			
-			
-			
+			/*
 			if ((pid = fork()) < 0) {     
-            		printf("*** ERROR: forking child process failed\n");
-            		exit(1);
-        		}
-        		else if (pid == 0) {          
-            			if (execvp(argv[0], argv) < 0) {     
-            	    		printf("*** ERROR: exec failed\n");
-            	    		exit(1);
-            			}
-        		} 
-        	
+            	printf("*** ERROR: forking child process failed\n");
+            	exit(1);
+        	}
+        	else if (pid == 0) {          
+            	if (execvp(argv[0], argv) < 0) {     
+            	    printf("*** ERROR: exec failed\n");
+            	    exit(1);
+            	}
+        	} 
+        	*/
 		}
 	}
 
