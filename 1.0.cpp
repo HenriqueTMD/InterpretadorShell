@@ -150,9 +150,7 @@ char** Tratamento_Comando(char* comando){
 
 //Funçao q libera os vetores alocados
 void Libera_Alocacao(int count, char** comandos){
-	int i, countc;
-  
-	countc = Contador_Virgulas(comando);
+	int i;
   
 	for(i = 0; i < countc; i++){
 		free(comandos[i]);	
@@ -184,7 +182,8 @@ int main(){
 		printf("%s\n", getcwd(s, 100)); 
 		printf("Digite o comando:\n");
 		fflush(stdin);
-		fgets()
+		fgets(comando,511,stdin);
+		comando[strlen(comando) - 1] = 0;
 		countc = Contador_Virgulas(comando)+1;
 		comandos = Separador_Comandos(comando);
 		puts(comandos[0]);
