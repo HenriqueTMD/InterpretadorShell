@@ -2,7 +2,7 @@
 Henrique Thalison - 5983
 Thiago Ferreira - 5991
 
->>Bugs conhecidos:
+-Bugs conhecidos:
 
 Caso na linha de comando tenha a palavra quit o programa é encerrado, ou seja os seguintes comandos enceram o programa sem executar qualquer comando, mesmo que valido, na linha:
 
@@ -22,7 +22,7 @@ ls, , , , , ,ls
  
 cat file , , grep foo file2
 
->>Passo a passo de como executar:
+-Passo a passo de como executar:
 
 Abra o terminal.
 
@@ -32,7 +32,7 @@ Execute o comando 'make'.
 
 Siga as instruções gerada pelo arquivo make.
 
->>Alguns exemplos de comandos funcionais:
+-Alguns exemplos de comandos funcionais:
 
 ls
 
