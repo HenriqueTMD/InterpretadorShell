@@ -18,7 +18,7 @@ Caso na linha de comando tenham comandos com apenas argumentos " " ocorrera um e
 
 ls, , , , , ,ls
 
- , cat file , grep foo file2
+  , cat file , grep foo file2
  
 cat file , , grep foo file2
 
