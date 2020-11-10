@@ -127,13 +127,12 @@ char** Tratamento_Comando(char* comando){
 			p_espacos[j] = i;
 			j++;
 		}
-		printf("%c ",comando[i]);
 		if(comando[i] != ' '){
 			
 			control = 1;
 		}
 	}
-	printf("\ncontrol %d\n",control);
+
 	if(control == 0){
 		return NULL;
 	}
