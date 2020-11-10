@@ -10,6 +10,12 @@ quit, ls
 touch quit.txt
 quit
 
+Caso na linha de comando tenham comandos com apenas argumentos " " ocorrera um erro no qual os comandos validos na linha podem não ser executados. Por exemplo:
+
+ls, , , , , ,ls
+ , cat file , grep foo file2
+cat file , , grep foo file2
+
 Passo a passo de como executar:
 
 Abra o terminal.
@@ -25,6 +31,9 @@ cd documentos
 ls, touch exemplo.txt
 cat ProjetoShell.c
 grep include ProjetoShell.c
+ls,,,,,,,,,ls
+,cat file , grep foo file2
+cat file ,, grep foo file2
 
 
 
